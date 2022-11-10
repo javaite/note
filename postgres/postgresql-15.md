@@ -1,4 +1,7 @@
-# 安装PostgreSQL-15
+# PostgreSQL-15 on Debian-11
+
+## 安装脚本
+
 ```bash
 #!/bin/bash
 
@@ -40,7 +43,8 @@ sudo -u postgres psql -c "revoke all on database postgres from public;"
 sudo -u postgres psql -c "grant all on schema public to postgres;"
 ```
 
-# 创建数据库
+## 创建数据库
+
 ```sql
 CREATE DATABASE demo WITH
     OWNER = postgres
@@ -58,8 +62,10 @@ revoke all on schema public from public;
 CREATE SCHEMA core;
 ```
 
-# 用户管理
+## 用户管理
+
 - 只读用户
+
 ```sql
 --创建用户: demo_ro
 create user demo_ro with nosuperuser nocreatedb nocreaterole noinherit login noreplication nobypassrls password 'demo1234';
@@ -78,6 +84,7 @@ ALTER DEFAULT PRIVILEGES FOR USER postgres IN SCHEMA core GRANT SELECT ON TABLES
 ```
 
 - 读写用户
+
 ```sql
 --创建用户: demo_rw
 create user demo_rw with nosuperuser nocreatedb nocreaterole noinherit login noreplication nobypassrls password 'demo1234';
@@ -94,13 +101,15 @@ ALTER DEFAULT PRIVILEGES FOR USER postgres IN SCHEMA core GRANT ALL PRIVILEGES O
 ```
 
 - 删除用户
+
 ```sql
 REASSIGN OWNED BY demo_rw TO postgres;
 DROP OWNED BY demo_rw;
 DROP USER demo_rw;
 ```
 
-# DDL
+## DDL
+
 ```sql
 DROP TABLE IF EXISTS public.evt_record;
 CREATE TABLE public.evt_record
@@ -128,4 +137,3 @@ CREATE INDEX idx_op_time ON public.evt_record USING BTREE (op_time) TABLESPACE d
 
 
 ```
-
